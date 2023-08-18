@@ -9,3 +9,15 @@ function load_assets(){
     wp_enqueue_script( "university_scripts", get_theme_file_uri() . '/build/index.js', array('jquery'), '1.02', true );
 }
 add_action("wp_enqueue_scripts","load_assets");
+
+
+function add_menu() {
+    add_theme_support( 'menus' );
+    register_nav_menus( array( 
+        'themeLocationOne' => 'Footer Menu One',
+        'themeLocationTwo' => 'Footer Menu Two'
+    ) );
+}
+
+//Thêm menu vào wordpress -> footer 
+add_action("init","add_menu");

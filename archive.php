@@ -32,13 +32,13 @@
     wp_get_post_parent_id(12) -> 6 -> hiển thị thanh sidebar bên phải 
     if wp_get_post_parent_id(6) = 0 -> hiển thị thanh sidebar bên phải  -->
     
-    <div class="page-links">
+    <!-- <div class="page-links">
       <h2 class="page-links__title"><a href="<?php echo site_url('/about-us'); ?>">About Us</a></h2>
       <ul class="min-list">
         <li class="current_page_item"><a href="<?php echo site_url('/our-history'); ?>">Our History</a></li>
         <li><a href="<?php echo site_url('/our-goal'); ?>">Our Goals</a></li>
       </ul>
-    </div>
+    </div> -->
    
 
     <div class="generic-content">

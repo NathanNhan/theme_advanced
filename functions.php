@@ -21,3 +21,11 @@ function add_menu() {
 
 //Thêm menu vào wordpress -> footer 
 add_action("init","add_menu");
+
+
+
+//Giới hạn ký tự muốn hiển thị của hàm excerpt 
+function wpdocs_custom_excerpt_length( $length ) {
+	return 25;
+}
+add_filter( 'excerpt_length', 'wpdocs_custom_excerpt_length' );

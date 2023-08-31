@@ -1,54 +1,59 @@
-<?php
+<?php 
+// header
+get_header();
 
-  get_header();
+?>
+<!-- Layout body -->
 
-  while(have_posts()) {
-    the_post(); ?>
-    
-    <div class="page-banner">
+
+ <div class="page-banner">
     <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg') ?>);"></div>
     <div class="page-banner__content container container--narrow">
-      <h1 class="page-banner__title"><?php the_title(); ?></h1>
+      <h1 class="page-banner__title"><?php the_archive_title(); ?></h1>
       <div class="page-banner__intro">
-        <p>DONT FORGET TO REPLACE ME LATER</p>
+        <p><?php the_archive_description(); ?></p>
       </div>
     </div>  
   </div>
 
-  <div class="container container--narrow page-section">
-    <?php
-        $theParent = wp_get_post_parent_id(get_the_ID());
-        if($theParent) {
-        ?>
-        <div class="metabox metabox--position-up metabox--with-home-link">
-            <p><a class="metabox__blog-home-link" href="<?php echo get_the_permalink( $theParent ); ?>"><i class="fa fa-home" aria-hidden="true"></i> Back to About Us</a> <span class="metabox__main"><?php the_title(); ?></span></p>
-        </div>
-    <?php
-        }
-    
-    ?>
-    
-    <!-- About us = 6 -> Our history = 12 
-    wp_get_post_parent_id(12) -> 6 -> hiển thị thanh sidebar bên phải 
-    if wp_get_post_parent_id(6) = 0 -> hiển thị thanh sidebar bên phải  -->
-    
-    <!-- <div class="page-links">
-      <h2 class="page-links__title"><a href="<?php echo site_url('/about-us'); ?>">About Us</a></h2>
-      <ul class="min-list">
-        <li class="current_page_item"><a href="<?php echo site_url('/our-history'); ?>">Our History</a></li>
-        <li><a href="<?php echo site_url('/our-goal'); ?>">Our Goals</a></li>
-      </ul>
-    </div> -->
-   
 
-    <div class="generic-content">
-      <?php the_content(); ?>
+   <div class="container container--narrow page-section">
+      <?php
+           while(have_posts()) {
+            the_post();
+            //Hiển thị thông tin bài viết
+            ?> 
+                    <div class="post-item">
+                        <h2 class="headline headline--medium headline--post-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+                        
+                        <div class="metabox">
+                            <p>Posted by <?php the_author_posts_link(); ?> on <?php the_time('n.j.y'); ?> in <?php echo get_the_category_list(', '); ?></p>
+                        </div>
+
+                        <div class="generic-content">
+                            <?php the_excerpt(); ?>
+                            <p><a class="btn btn--blue" href="<?php the_permalink(); ?>">Continue reading &raquo;</a></p>
+                       </div>
+
     </div>
 
-  </div>
-    
-  <?php }
+            <?php
+           }
+          
+      ?>
 
-  get_footer();
+
+   </div>
+
+
+
+
+
+<?php 
+// footer
+get_footer();
+
+
+
 
 ?>

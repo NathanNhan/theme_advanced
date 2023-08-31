@@ -39,6 +39,9 @@ get_header();
 
             <?php
            }
+
+           //phân trang
+           echo paginate_links();
           
       ?>
 

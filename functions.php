@@ -29,3 +29,26 @@ function wpdocs_custom_excerpt_length( $length ) {
 	return 25;
 }
 add_filter( 'excerpt_length', 'wpdocs_custom_excerpt_length' );
+
+
+//Tạo mới một cái main query 
+function university_create_query($query) {
+    if(!is_admin() AND is_post_type_archive( 'event' ) AND $query->is_main_query()) {
+        $today = date('Ymd');
+        $query->set('post_type','event');
+        $query->set('posts_per_page', 2);
+        $query->set('meta_key','events_date');
+        $query->set('orderby','meta_value_num');
+        $query->set('order', 'ASC');
+        $query->set('meta_query',array(
+                array( 
+                  "key" => 'events_date',
+                  "compare" => '>=',
+                  "value" => $today,
+                  "type" => 'numeric' 
+                )
+        ) );
+    }
+
+}
+add_action('pre_get_posts','university_create_query');

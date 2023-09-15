@@ -9,9 +9,9 @@ get_header();
  <div class="page-banner">
     <div class="page-banner__bg-image" style="background-image: url(<?php echo get_theme_file_uri('/images/ocean.jpg') ?>);"></div>
     <div class="page-banner__content container container--narrow">
-      <h1 class="page-banner__title"><?php the_archive_title(); ?></h1>
+      <h1 class="page-banner__title"><?php the_title(); ?></h1>
       <div class="page-banner__intro">
-        <p><?php the_archive_description(); ?></p>
+        <p>Welcome to my pasts events page</p>
       </div>
     </div>  
   </div>
@@ -19,8 +19,27 @@ get_header();
 
    <div class="container container--narrow page-section">
       <?php
-           while(have_posts()) {
-            the_post();
+           $today = date('Ymd');
+           $pastEvents = new WP_Query( 
+            array( 
+              'paged' => get_query_var('paged', 1),
+              'posts_per_page' => 2, 
+              'post_type' => 'event',
+              'meta_key' => 'events_date',
+              'orderby' => 'meta_value_num',
+              'order' => 'ASC',
+              'meta_query' => array(
+                array( 
+                  "key" => 'events_date',
+                  "compare" => '<',
+                  "value" => $today,
+                  "type" => 'numeric' 
+                )
+              )
+            )
+                );
+           while($pastEvents->have_posts()) {
+            $pastEvents->the_post();
             //Hiển thị thông tin bài viết
             ?> 
                 <div class="event-summary">
@@ -41,11 +60,11 @@ get_header();
             <?php
            }
 
-           echo paginate_links();
+           echo paginate_links(array(
+            'total' => $pastEvents->max_num_pages,
+           ));
           
       ?>
-      <hr class="divider_break">
-      <p>Looking for all Past Events. <a href="<?php echo site_url('/past-events'); ?>">Check out past events in here. </a></p>
 
 
    </div>

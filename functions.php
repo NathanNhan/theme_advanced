@@ -33,6 +33,13 @@ add_filter( 'excerpt_length', 'wpdocs_custom_excerpt_length' );
 
 //Tạo mới một cái main query 
 function university_create_query($query) {
+    //Áp dụng custom query cho thằng Archive Programmes
+    if(!is_admin() AND is_post_type_archive( 'programmes' ) AND $query->is_main_query()) {
+        $query->set('orderby','title');
+        $query->set('order','ASC');
+        $query->set('posts_per_page', -1);
+    }
+    //Áp dụng custom query cho thằng Archive Events 
     if(!is_admin() AND is_post_type_archive( 'event' ) AND $query->is_main_query()) {
         $today = date('Ymd');
         $query->set('post_type','event');

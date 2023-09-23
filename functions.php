@@ -59,3 +59,14 @@ function university_create_query($query) {
 
 }
 add_action('pre_get_posts','university_create_query');
+
+
+///Xử lý hình ảnh cho post type = professor 
+
+
+add_action( 'after_setup_theme', 'wpdocs_theme_setup' );
+function wpdocs_theme_setup() {
+	// add_theme_support('post-thumbnails');
+    add_image_size('professorLandscape', 400, 260, true);
+    add_image_size('professorPortrail', 480, 650, true);
+}

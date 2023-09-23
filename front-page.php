@@ -33,6 +33,7 @@
               )
             )
             );
+           
             while($homepageEvents->have_posts()) {
               $homepageEvents->the_post(); 
               ?>
@@ -42,6 +43,7 @@
                     <?php
                         $eventsDate = new DateTime(get_field('events_date'));
                         //return format : Ymd
+                       
                     ?>
                     <span class="event-summary__month"><?php echo $eventsDate->format('M'); ?></span>
                     <span class="event-summary__day"><?php echo $eventsDate->format('d'); ?></span>  

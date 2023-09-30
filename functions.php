@@ -71,3 +71,35 @@ function wpdocs_theme_setup() {
     add_image_size('professorPortrail', 480, 650, true);
     add_image_size('pageBanner', 1500, 350, true);
 }
+
+
+// Khai báo hàm getBanner 
+function getBanner ($nhanthamso = NULL) {
+    if(!isset($nhanthamso["title"])) {
+       $nhanthamso["title"] = get_the_title();
+    }
+    if(!isset($nhanthamso["subtitle"])) {
+       $nhanthamso["subtitle"] = get_field("page_banner_subtittle");
+    }
+    if(!isset($nhanthamso["photo"])) {
+       if(get_field("page_banner_background_image")) {
+        $nhanthamso["photo"] = get_field("page_banner_background_image")['sizes']['pageBanner'];
+       } else {
+        $nhanthamso["photo"] = get_theme_file_uri( '/images/ocean.jpg' );
+       }
+    }
+    ?> 
+     <div class="page-banner">
+            
+            <div class="page-banner__bg-image" style="background-image: url(<?php echo $nhanthamso["photo"]; ?>);">
+            </div>
+            <div class="page-banner__content container container--narrow">
+              <h1 class="page-banner__title"><?php echo $nhanthamso["title"]; ?></h1>
+              <div class="page-banner__intro">
+                <!-- <p><?php the_field('page_banner_subtittle'); ?></p> -->
+                <p><?php echo $nhanthamso["subtitle"]; ?></p>
+              </div>
+            </div>  
+          </div>
+    <?php 
+}

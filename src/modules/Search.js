@@ -2,6 +2,8 @@ import $ from 'jquery';
 class Search {
     // Lấy element mà các bạn muốn thao tác
     constructor() {
+        //Lấy khung để hiển thị kết quả
+        this.resultDiv = $('#search-overlay__results');
         // Lấy phần từ icon search 
         this.openSearch = $('.js-search-trigger');
         //Lấy nút đóng khung search
@@ -13,26 +15,45 @@ class Search {
         this.searchItem = $('#search-term');
         this.event();
         this.openOverlays = false;
+        this.spinnerVisible = false;
+        this.previousValue = '';
     }
 
     event() {
-        
-        
         // this = openSearch -> Lỗi ngay từ chỗ này rồi :))
         // Để fix lỗi : Phải có từ khóa bind để trỏ this về lại đối tượng ban đầu khởi tạo từ class Search
         this.openSearch.on("click", this.openOverlay.bind(this));
         this.closeSearch.on("click", this.closeOverlay.bind(this));
-        $(document).on("keydown",this.dispatchKeyPress.bind(this)); 
-        this.searchItem.on("keydown", this.typingLogic.bind(this));
+        $(document).on("keydown",this.dispatchKeyPress.bind(this));
+        
+        this.searchItem.on("keyup", this.typingLogic.bind(this));
 
     }
  
     //Typing Logic
-    typingLogic() {
-        clearTimeout(this.timing);
-        this.timing = setTimeout(() => {
-           console.log("This is a test"); 
-        }, 2000);
+    typingLogic() {   
+        if (this.previousValue != this.searchItem.val()) {
+            clearTimeout(this.timing);
+            if(this.searchItem.val()) {
+                //do something
+                if (!this.spinnerVisible) {
+                    this.resultDiv.html('<div class="spinner-loader"></div>');
+                    this.spinnerVisible = true;
+                }
+                this.timing = setTimeout(this.getResults.bind(this), 2000);
+
+            } else {
+                this.resultDiv.html('');
+                this.spinnerVisible = false;
+            }  
+        }
+        this.previousValue = this.searchItem.val();
+    }
+
+    //In kết quả khi người search từ khóa
+    getResults() {
+        this.resultDiv.html('Đây là chỗ hiển thị kết quả');
+        this.spinnerVisible = false;
     }
     //Xử lý mở màn che khi bấm phím s / đóng màn che khi bấm phím esc
     dispatchKeyPress(e) {

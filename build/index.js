@@ -149,8 +149,22 @@ class Search {
 
   //In kết quả khi người search từ khóa
   getResults() {
-    this.resultDiv.html('Đây là chỗ hiển thị kết quả');
-    this.spinnerVisible = false;
+    // this.resultDiv.html('Đây là chỗ hiển thị kết quả');
+    // this.spinnerVisible = false;
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().when(jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchItem.val()), jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchItem.val())).then((posts, pages) => {
+      // console.log(posts);
+      // console.log(pages);
+      var combineResults = posts[0].concat(pages[0]);
+      this.resultDiv.html(`
+                    <h2 class="search-overlay__section-title">General Information</h2>
+                    ${combineResults.length ? '<ul class="link-list min-list">' : '<p>General Information no match with search</p>'}     
+                        ${combineResults.map(item => `<li><a href='${item.link}'>${item.title.rendered}</a></li>`).join('')}
+                    ${combineResults.length ? ' </ul>' : ''}
+                `);
+      this.spinnerVisible = false;
+    }, () => {
+      this.resultDiv.html("<p>Error Unexpeted in search!!!</p>");
+    });
   }
   //Xử lý mở màn che khi bấm phím s / đóng màn che khi bấm phím esc
   dispatchKeyPress(e) {

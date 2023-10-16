@@ -76,10 +76,13 @@
       </div>
     </div>
   </div>
-
+  <!-- Viết vòng lặp -->
+  <!-- Bước 1: Nghiên cứu lấy repeater field -->
+  <!-- Bước 2: Đi vòng lặp của repeater field để in ra các nội dung(data) -->
   <div class="hero-slider">
     <div data-glide-el="track" class="glide__track">
     <div class="glide__slides">
+      <!-- viết vòng lặp ở đây -->
     <div class="hero-slider__slide" style="background-image: url(<?php echo get_theme_file_uri('/images/bus.jpg'); ?>);">
     <div class="hero-slider__interior container">
       <div class="hero-slider__overlay">
@@ -107,6 +110,7 @@
       </div>
     </div>
   </div>
+  <!-- Kết thúc vòng lặp -->
     </div>
       <div class="slider__bullets glide__bullets" data-glide-el="controls[nav]">
       </div>

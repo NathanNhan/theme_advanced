@@ -1,5 +1,13 @@
 <?php 
-
+// Thêm field vào rest api của Wordpress 
+function registerField(){
+    register_rest_field( 'post', 'authorName', array( 
+        'get_callback' => function () {return get_author_name();}
+    ) );
+    //Bài tập cho custom rest api => post type = page 
+    
+}
+add_action( 'rest_api_init', 'registerField' );
 function load_assets(){
     wp_enqueue_style("font","//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i", array(), "1.0", "all");
     wp_enqueue_style( "bootstrapcss", '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', array(), "1.1", 'all');

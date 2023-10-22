@@ -1,10 +1,14 @@
 <?php 
+require get_theme_file_path( '/inc/rest-api.php' );
 // Thêm field vào rest api của Wordpress 
 function registerField(){
     register_rest_field( 'post', 'authorName', array( 
         'get_callback' => function () {return get_author_name();}
     ) );
-    //Bài tập cho custom rest api => post type = page 
+    //Bài tập cho custom rest api => post type = page
+    register_rest_field( 'page', 'authorName', array( 
+        'get_callback' => function () {return get_author_name();}
+    ) ); 
     
 }
 add_action( 'rest_api_init', 'registerField' );

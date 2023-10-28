@@ -149,22 +149,55 @@ class Search {
 
   //In kết quả khi người search từ khóa
   getResults() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/university/v1/universities?term=" + this.searchItem.val(), results => {
+      this.resultDiv.html(`
+        <div class="row">
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">General Information</h2>
+            ${results.general_info.length ? '<ul class="link-list min-list">' : '<p>General Information no match with search</p>'}     
+                 ${results.general_info.map(item => `<li><a href='${item.permalink}'>${item.title} ${item.postType == "post" ? `by ${item.authorName}</a></li>` : ``}`).join('')}
+            ${results.general_info.length ? ' </ul>' : ''}
+          </div>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Programs</h2>
+            ${results.programmes.length ? '<ul class="link-list min-list">' : '<p>Programs no match with search</p>'}     
+                 ${results.programmes.map(item => `<li><a href='${item.permalink}'>${item.title} ${item.postType == "programmes" ? `by ${item.authorName}</a></li>` : ``}`).join('')}
+            ${results.programmes.length ? ' </ul>' : ''}
+
+            <h2 class="search-overlay__section-title">Professors</h2>
+            ${results.professors.length ? '<ul class="link-list min-list">' : '<p>Professions Information no match with search</p>'}     
+                 ${results.professors.map(item => `<li><a href='${item.permalink}'>${item.title} ${item.postType == "professors" ? `by ${item.authorName}</a></li>` : ``}`).join('')}
+            ${results.professors.length ? ' </ul>' : ''}
+          </div>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Events</h2>
+            ${results.events.length ? '<ul class="link-list min-list">' : '<p>Events no match with search</p>'}     
+                 ${results.events.map(item => `<li><a href='${item.permalink}'>${item.title} ${item.postType == "event" ? `by ${item.authorName}</a></li>` : ``}`).join('')}
+            ${results.events.length ? ' </ul>' : ''}
+          </div>
+        </div>
+      `);
+      this.isSpinnerVisible = false;
+    });
     // this.resultDiv.html('Đây là chỗ hiển thị kết quả');
     // this.spinnerVisible = false;
-    jquery__WEBPACK_IMPORTED_MODULE_0___default().when(jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchItem.val()), jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(universityData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchItem.val())).then((posts, pages) => {
-      // console.log(posts);
-      // console.log(pages);
-      var combineResults = posts[0].concat(pages[0]);
-      this.resultDiv.html(`
-                    <h2 class="search-overlay__section-title">General Information</h2>
-                    ${combineResults.length ? '<ul class="link-list min-list">' : '<p>General Information no match with search</p>'}     
-                        ${combineResults.map(item => `<li><a href='${item.link}'>${item.title.rendered} ${item.type == "post" ? `by ${item.authorName}</a></li>` : ``}`).join('')}
-                    ${combineResults.length ? ' </ul>' : ''}
-                `);
-      this.spinnerVisible = false;
-    }, () => {
-      this.resultDiv.html("<p>Error Unexpeted in search!!!</p>");
-    });
+    // $.when(
+    //     $.getJSON(universityData.root_url + "/wp-json/wp/v2/posts?search=" + this.searchItem.val()),
+    //     $.getJSON(universityData.root_url + "/wp-json/wp/v2/pages?search=" + this.searchItem.val())
+    // ).then((posts, pages) => {
+    //     // console.log(posts);
+    //     // console.log(pages);
+    //     var combineResults = posts[0].concat(pages[0]);
+    //     this.resultDiv.html(`
+    //             <h2 class="search-overlay__section-title">General Information</h2>
+    //             ${combineResults.length ? '<ul class="link-list min-list">' : '<p>General Information no match with search</p>'}     
+    //                 ${combineResults.map(item => `<li><a href='${item.link}'>${item.title.rendered} ${item.type == "post" ? `by ${item.authorName}</a></li>` : ``}`).join('')}
+    //             ${combineResults.length ? ' </ul>' : ''}
+    //         `)
+    //     this.spinnerVisible = false;
+    // }, () => {
+    //     this.resultDiv.html("<p>Error Unexpeted in search!!!</p>");
+    // })
   }
   //Xử lý mở màn che khi bấm phím s / đóng màn che khi bấm phím esc
   dispatchKeyPress(e) {

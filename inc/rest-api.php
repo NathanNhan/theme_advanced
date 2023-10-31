@@ -78,6 +78,10 @@ function getResults($data) {
     }
 
     //Tìm kiếm thầy/cô theo môn học bằng custom query 
+    // Thầy Trọng Nhân -> Math, Math basic, Math advanced (toán tử : OR)
+    // Lần 1: meta_query -> Math 
+    // Lần 2: meta query -> Math basic
+    // Lần 3: meta query -> Math advanced
     $danhSachMonHoc = $new_array['programmes'];
     foreach ($danhSachMonHoc as $item) {
         $query = array(

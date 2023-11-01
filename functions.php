@@ -118,3 +118,24 @@ function getBanner ($nhanthamso = NULL) {
           </div>
     <?php 
 }
+
+// Redirect homepage when guest login 
+add_action('admin_init','redirectHomePage');
+
+function redirectHomePage() {
+    $guests = wp_get_current_user();
+    if($guests->roles[0] == 'subscriber') {
+        wp_redirect( site_url( '/') );
+        exit;
+    }
+}
+
+//Ẩn thanh topbar
+add_action('wp_loaded','noAdminBar');
+
+function noAdminBar() {
+    $guests = wp_get_current_user();
+    if($guests->roles[0] == 'subscriber') {
+        show_admin_bar( false );
+    }
+}

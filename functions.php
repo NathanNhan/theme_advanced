@@ -139,3 +139,25 @@ function noAdminBar() {
         show_admin_bar( false );
     }
 }
+
+// Chuyển về trang chủ khi ng dùng click vào biểu tượng Wordpress của form login 
+add_filter('login_headerurl','chuyenTrangHomePage');
+function chuyenTrangHomePage() {
+    return esc_url(site_url('/'));
+}
+
+//Load css cho trang login 
+add_action('login_enqueue_scripts','login_loading_assets');
+function login_loading_assets() {
+    wp_enqueue_style("font","//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:100,300,400,400i,700,700i", array(), "1.0", "all");
+    wp_enqueue_style( "bootstrapcss", '//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css', array(), "1.1", 'all');
+    wp_enqueue_style( "maincss", get_theme_file_uri() . '/build/index.css', array(), '1.0.2', 'all' );
+    wp_enqueue_style( "mainstylecss", get_theme_file_uri() . '/build/style-index.css', array(), '1.0.3', 'all' );
+}
+
+
+//Thay đổi tiêu đề cho trang login  
+function my_login_logo_url_title() {
+    return get_bloginfo( 'name' );
+}
+add_filter( 'login_headertext', 'my_login_logo_url_title' );

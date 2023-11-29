@@ -2065,6 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
+/* harmony import */ var _modules_Like__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/Like */ "./src/modules/Like.js");
 
 // Our modules / classes
 
@@ -2075,6 +2076,7 @@ __webpack_require__.r(__webpack_exports__);
 const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 const liveSearch = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"]();
+const likeBox = new _modules_Like__WEBPACK_IMPORTED_MODULE_4__["default"]();
 
 /***/ }),
 
@@ -2114,6 +2116,69 @@ class HeroSlider {
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (HeroSlider);
+
+/***/ }),
+
+/***/ "./src/modules/Like.js":
+/*!*****************************!*\
+  !*** ./src/modules/Like.js ***!
+  \*****************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+class Like {
+  constructor() {
+    // alert("Welcome to my teacher!!!");
+    this.event();
+  }
+  event() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(".like-box").on("click", e => this.dispatchLike(e));
+  }
+
+  //method
+  dispatchLike(e) {
+    console.log(e.target);
+    var currentLikeBox = jquery__WEBPACK_IMPORTED_MODULE_0___default()(e.target).closest('.like-box');
+    if (currentLikeBox.data('exists') == 'yes') {
+      this.deleteLike();
+    } else {
+      this.createLike();
+    }
+  }
+
+  //Like
+  createLike() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: universityData.root_url + "/wp-json/university/v2/manageLike",
+      method: "POST",
+      success: response => {
+        alert(response);
+      },
+      error: response => {
+        alert(response);
+      }
+    });
+  }
+
+  //Unlike
+  deleteLike() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      url: universityData.root_url + "/wp-json/university/v2/manageLike",
+      method: "DELETE",
+      success: response => {
+        alert(response);
+      },
+      error: response => {
+        alert(response);
+      }
+    });
+  }
+}
+/* harmony default export */ __webpack_exports__["default"] = (Like);
 
 /***/ }),
 
@@ -2442,6 +2507,17 @@ class Search {
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "jquery":
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/***/ (function(module) {
+
+"use strict";
+module.exports = window["jQuery"];
 
 /***/ }),
 

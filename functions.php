@@ -1,5 +1,8 @@
 <?php 
+// import custom rest api của tính năng search
 require get_theme_file_path( '/inc/rest-api.php' );
+// import custom rest api của tính năng like
+require get_theme_file_path('/inc/rest-like.php');
 // Thêm field vào rest api của Wordpress 
 function registerField(){
     register_rest_field( 'post', 'authorName', array( 

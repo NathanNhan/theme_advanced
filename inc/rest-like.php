@@ -11,8 +11,17 @@ add_action( 'rest_api_init', function () {
   ) );
 } );
 
-function createLike() {
-    return "Kết quả trả về là create like";
+function createLike($data) {
+   $professor = sanitize_text_field($data['professorID']);
+
+   return wp_insert_post(array(
+        'post_type' => 'like',
+        'post_status' => 'publish',
+        'post_title' => '2nd PHP Test',
+        'meta_input' => array(
+          'professors_id' => $professor
+        )
+  ));
 }
 
 

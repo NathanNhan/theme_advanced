@@ -17,20 +17,24 @@ class Like {
         if (currentLikeBox.data('exists') == 'yes') {
             this.deleteLike();
         } else {
-            this.createLike();
+            this.createLike(currentLikeBox);
         }
     }
 
     //Like
-    createLike() {
+    createLike(currentLikeBox) {
        $.ajax({
+        beforeSend: (xhr) => {
+               xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
+        },
         url: universityData.root_url+"/wp-json/university/v2/manageLike",
+        data: { professorID: currentLikeBox.data('professorID')},
         method: "POST", 
         success : (response) => {
-            alert(response);
+            console.log(response);
         },
         error: (response) => {
-            alert(response);
+            console.log(response);
         }
        });
     }

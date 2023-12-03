@@ -23,7 +23,8 @@ function load_assets(){
 
     wp_enqueue_script( "university_scripts", get_theme_file_uri() . '/build/index.js', array('jquery'), '1.02', true );
     wp_localize_script( 'university_scripts', 'universityData', array(
-        'root_url' => get_site_url()
+        'root_url' => get_site_url(),
+        'nonce' => wp_create_nonce( 'wp_none' ),
     ) );
 }
 add_action("wp_enqueue_scripts","load_assets");

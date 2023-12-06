@@ -31,28 +31,31 @@
 
                             //Xử lý like icon 
                             $status = "no";
-
-                            $existsLike = new WP_Query(
-                              array( 
-                                'author' => get_current_user_id(),
-                                'post_type' => 'like',
-                                'meta_query' => array( 
-                                  array( 
-                                    'meta_key' => 'professors_id', 
-                                    'compare' => '=', 
-                                    'value' => get_the_ID()
+                            if(is_user_logged_in()) {
+                                 $userDaLike = new WP_Query(
+                                array( 
+                                  'author' => get_current_user_id(),
+                                  'post_type' => 'like',
+                                  'meta_query' => array( 
+                                    array( 
+                                      'meta_key' => 'professors_id', 
+                                      'compare' => '=', 
+                                      'value' => get_the_ID()
+                                    )
                                   )
                                 )
-                              )
-                            );
-
-                            if($existsLike->found_posts) {
-                              $status = "yes";
+                              );
+  
+                              if($userDaLike->found_posts) {
+                                $status = "yes";
+                              }
                             }
+                             
+                            
                              
 
                         ?>
-                          <span class="like-box" data-exists="<?php echo $status; ?>" data-professorID="<?php the_ID(); ?>">
+                          <span class="like-box" data-exists="<?php echo $status; ?>" data-professor="<?php the_ID(); ?>">
                             <i class="fa fa-heart-o" aria-hidden="true"></i>
                             <i class="fa fa-heart" aria-hidden="true"></i>
                             <span class="like-count"><?php echo $likeCount->found_posts; ?></span>

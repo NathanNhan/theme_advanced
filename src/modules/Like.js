@@ -15,7 +15,8 @@ class Like {
         console.log(e.target);
         var currentLikeBox = $(e.target).closest('.like-box');
         if (currentLikeBox.data('exists') == 'yes') {
-            this.deleteLike();
+            // this.deleteLike();
+            this.createLike(currentLikeBox);
         } else {
             this.createLike(currentLikeBox);
         }
@@ -27,9 +28,9 @@ class Like {
         beforeSend: (xhr) => {
                xhr.setRequestHeader('X-WP-Nonce', universityData.nonce);
         },
-        url: universityData.root_url+"/wp-json/university/v2/manageLike",
-        data: { professorID: currentLikeBox.data('professorID')},
+        url: universityData.root_url + "/wp-json/university/v2/manageLike",
         method: "POST", 
+        data: { "professorId": currentLikeBox.data("professor") },
         success : (response) => {
             console.log(response);
         },

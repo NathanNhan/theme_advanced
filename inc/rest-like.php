@@ -49,8 +49,13 @@ function createLike($data) {
 }
 
 
-function deleteLike() {
-   return "Kết quả trả về là delete like";
+function deleteLike($data) {
+   $likeID = sanitize_text_field($data["like"]);
+  //  echo $likeID;
+   wp_delete_post( $likeID, true );
+   
+  // wp_delete_post($likeID, true);
+   
 }
 
 

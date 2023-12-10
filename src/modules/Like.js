@@ -14,9 +14,9 @@ class Like {
     dispatchLike(e) {
         console.log(e.target);
         var currentLikeBox = $(e.target).closest('.like-box');
-        if (currentLikeBox.data('exists') == 'yes') {
-            // this.deleteLike();
-            this.createLike(currentLikeBox);
+        if (currentLikeBox.attr('data-exists') == 'yes') {
+            this.deleteLike(currentLikeBox);
+            
         } else {
             this.createLike(currentLikeBox);
         }
@@ -32,7 +32,17 @@ class Like {
         method: "POST", 
         data: { "professorId": currentLikeBox.data("professor") },
         success : (response) => {
-            console.log(response);
+            // Bước 1 : Tô đậm icon like -> user đã like thành công
+            currentLikeBox.attr('data-exists','yes');
+            //Bước 2: Tính số lượt like 
+            var likeCount = parseInt(currentLikeBox.find(".like-count").html());
+            //Bước 3: Tăng số lần like lên += 1; 
+            likeCount++;
+            //Bước 4: Cập nhật likeCount ra DOM 
+            currentLikeBox.find(".like-count").html(likeCount);
+            //Bước 5: Cập nhật ID của like mới tạo vào thuộc tính data-like
+            currentLikeBox.attr("data-like", `${response}`);
+
         },
         error: (response) => {
             console.log(response);
@@ -41,12 +51,24 @@ class Like {
     }
 
     //Unlike
-    deleteLike() {
+    deleteLike(currentLikeBox) {
         $.ajax({
             url: universityData.root_url + "/wp-json/university/v2/manageLike",
             method: "DELETE",
+            data : {"like" : currentLikeBox.attr('data-like')},
             success: (response) => {
-                alert(response);
+                // Bước 1 : Tô đậm icon like -> user đã like thành công
+                currentLikeBox.attr('data-exists', 'no');
+                //Bước 2: Tính số lượt like 
+                var likeCount = parseInt(currentLikeBox.find(".like-count").html());
+                //Bước 3: Tăng số lần like lên += 1; 
+                likeCount--;
+                //Bước 4: Cập nhật likeCount ra DOM 
+                currentLikeBox.find(".like-count").html(likeCount);
+                //Bước 5: Cập nhật ID của like mới tạo vào thuộc tính data-like
+                currentLikeBox.attr("data-like", "");
+                //Bước 6 : In ra câu luợt like đã xóa thành công 
+                console.log(response);
             },
             error: (response) => {
                 alert(response);

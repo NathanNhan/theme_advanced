@@ -1,5 +1,18 @@
 <?php
+  if(!get_current_user_id()) {
+    wp_redirect( site_url('/'));
+    exit();
+  }
 
+  // $custom_query = new WP_Query(
+  //   array ( 
+  //     "post_type" => 'note', 
+  //     "posts_per_page" => -1, 
+  //     "author" => get_current_user_id()
+  //   )
+  // );
+
+  // print_r($custom_query->found_posts);
   get_header();
 
   while(have_posts()) {
